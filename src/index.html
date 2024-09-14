@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Todo List</title>
+  </head>
+  <body>
+    <div>
+      <h2>Projects</h2>
+      <ul id="projects"></ul>
+      <button id="add-project-btn">Add project</button>
+      <form id="project-form" style="display: none">
+        <div>
+          <label for="name">Project Name:</label>
+          <input id="name" name="name" type="text" />
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div>
+      <h2 id="project-header"></h2>
+      <ul id="todos"></ul>
+      <button id="add-todo-btn">Add todo</button>
+      <form id="todo-form" style="display: none">
+        <div>
+          <label for="title">Title:</label>
+          <input id="title" name="title" type="text" required />
+        </div>
+        <div>
+          <label for="description">Description:</label>
+          <textarea id="description" name="description"></textarea>
+        </div>
+        <div>
+          <label for="dueDate">Due Date:</label>
+          <input id="dueDate" name="dueDate" type="date" />
+        </div>
+        <fieldset id="">
+          <legend>Priority:</legend>
+          <input id="low" name="priority" type="radio" checked />
+          <label for="low">Low</label>
+          <input id="medium" name="priority" type="radio" />
+          <label for="medium">Medium</label>
+          <input id="high" name="priority" type="radio" />
+          <label for="high">High</label>
+        </fieldset>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
