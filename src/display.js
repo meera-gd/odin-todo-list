@@ -1,8 +1,9 @@
-import { App, Project, Todo } from "./todo";
+import { save } from "./storage";
+import { Project, Todo } from "./todo";
 
 class Display {
   constructor(app) {
-    this.app = new App();
+    this.app = app;
     this.updatingProject = null;
     this.updatingTodo = null;
 
@@ -20,7 +21,7 @@ class Display {
       if (this.updatingProject) {
         this.updatingProject.name = nameField.value;
       } else {
-        this.app.addProject(new Project(nameField.value));
+        this.app.addProject(new Project(nameField.value, []));
       }
       projectForm.style.display = "none";
       nameField.value = "";
@@ -55,7 +56,7 @@ class Display {
         this.updatingTodo.dueDate = dateField.value;
         this.updatingTodo.priority = priorityField.id;
       } else {
-        this.app.currentProject.addTodo(
+        this.app.projects[this.app.currentProject].addTodo(
           new Todo(
             titleField.value,
             descField.value,
@@ -78,16 +79,18 @@ class Display {
   }
 
   update() {
+    save(this.app);
+
     const projectList = document.querySelector("#projects");
     projectList.textContent = "";
     for (const project of this.app.projects) {
       const li = document.createElement("li");
       li.textContent = project.name;
-      if (project !== this.app.currentProject) {
+      if (project !== this.app.projects[this.app.currentProject]) {
         const button = document.createElement("button");
         button.textContent = "View";
         button.addEventListener("click", () => {
-          this.app.currentProject = project;
+          this.app.currentProject = this.app.projects.indexOf(project);
           this.update();
         });
         li.appendChild(button);
@@ -115,11 +118,11 @@ class Display {
     }
 
     const projectHeader = document.querySelector("#project-header");
-    projectHeader.textContent = this.app.currentProject.name;
+    projectHeader.textContent = this.app.projects[this.app.currentProject].name;
 
     const todoList = document.querySelector("#todos");
     todoList.textContent = "";
-    for (const todo of this.app.currentProject.todos) {
+    for (const todo of this.app.projects[this.app.currentProject].todos) {
       const li = document.createElement("li");
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
@@ -169,7 +172,7 @@ class Display {
       const delBtn = document.createElement("button");
       delBtn.textContent = "Delete";
       delBtn.addEventListener("click", () => {
-        this.app.currentProject.removeTodo(todo);
+        this.app.projects[this.app.currentProject].removeTodo(todo);
         this.update();
       });
       li.appendChild(delBtn);

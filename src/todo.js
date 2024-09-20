@@ -9,9 +9,9 @@ class Todo {
 }
 
 class Project {
-  constructor(name) {
+  constructor(name, todos) {
     this.name = name;
-    this.todos = [];
+    this.todos = todos;
   }
 
   addTodo(todo) {
@@ -28,9 +28,9 @@ class Project {
 }
 
 class App {
-  constructor() {
-    this.projects = [new Project("Inbox")];
-    this.currentProject = this.projects[0];
+  constructor(projects, currentProject) {
+    this.projects = projects;
+    this.currentProject = currentProject;
   }
 
   addProject(project) {
@@ -39,12 +39,12 @@ class App {
 
   removeProject(project) {
     const idx = this.projects.indexOf(project);
-    if (idx < 0) {
+    if (idx <= 0) {
       return;
     }
     this.projects.splice(idx, 1);
-    if (this.currentProject === project) {
-      this.currentProject = this.projects[0];
+    if (this.currentProject === idx) {
+      this.currentProject = 0;
     }
   }
 }
