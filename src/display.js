@@ -60,7 +60,8 @@ class Display {
             titleField.value,
             descField.value,
             dateField.value,
-            priorityField.id
+            priorityField.id,
+            false
           )
         );
       }
@@ -120,12 +121,23 @@ class Display {
     todoList.textContent = "";
     for (const todo of this.app.currentProject.todos) {
       const li = document.createElement("li");
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = todo.completed;
+      checkbox.addEventListener("click", () => {
+        todo.completed = !todo.completed;
+        this.update();
+      });
+      li.appendChild(checkbox);
       const span = document.createElement("span");
       span.textContent = todo.title;
       if (todo.dueDate) {
         span.textContent += ` - ${todo.dueDate}`;
       }
       span.classList.add(todo.priority);
+      if (todo.completed) {
+        span.classList.add("completed");
+      }
       li.appendChild(span);
       const p = document.createElement("p");
       p.style.display = "none";
